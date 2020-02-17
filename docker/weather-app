@@ -1,0 +1,15 @@
+FROM node:alpine
+RUN apk update
+RUN mkdir -p /node/weather-app
+RUN apk add git
+WORKDIR /node/weather-app
+RUN git clone https://github.com/linuxacademy/content-weather-app
+WORKDIR /node/weather-app/content-weather-app
+RUN npm install
+ARG APP_VERSION=1
+ENV NODE_ENV=production
+RUN cp -avr /node/weather-app/content-weather-app /var/weather-app
+WORKDIR /var/weather-app
+RUN ls
+EXPOSE 3000
+ENTRYPOINT ["./bin/www"]
